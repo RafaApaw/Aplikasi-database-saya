@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aplikasi Database Pengguna</title>
+    <!-- Memuat Tailwind CSS untuk styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Memuat Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Icon untuk tab browser -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🗃️</text></svg>">
+    <style>
+        /* Menggunakan font Inter sebagai default */
+        body {
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        /* Style untuk transisi yang mulus antar halaman */
+        .page {
+            display: none;
+        }
+        .page.active {
+            display: block;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+
+    <div class="w-full max-w-md mx-auto p-4">
+
+        <!-- Halaman Login -->
+        <div id="login-page" class="page active">
+            <div class="bg-white p-8 rounded-2xl shadow-lg w-full">
+                <h2 class="text-3xl font-bold text-center text-gray-800 mb-2">Selamat Datang</h2>
+                <p class="text-center text-gray-500 mb-8">Silakan masuk untuk melanjutkan</p>
+                <form id="login-form">
+                    <div class="mb-4">
+                        <label for="login-email" class="block text-gray-700 text-sm font-semibold mb-2">Email</label>
+                        <input type="email" id="login-email" class="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="nama@email.com" required>
+                    </div>
+                    <div class="mb-6">
+                        <label for="login-password" class="block text-gray-700 text-sm font-semibold mb-2">Password</label>
+                        <input type="password" id="login-password" class="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="••••••••" required>
+                    </div>
+                    <button type="submit" class="w-full bg-blue-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-300">Login</button>
+                </form>
+                <p class="text-center text-gray-500 mt-6">
+                    Belum punya akun? <a href="#" id="show-register" class="text-blue-600 hover:underline font-semibold">Daftar di sini</a>
+                </p>
+            </div>
+        </div>
+
+        <!-- Halaman Registrasi -->
+        <div id="register-page" class="page">
+            <div class="bg-white p-8 rounded-2xl shadow-lg w-full">
+                <h2 class="text-3xl font-bold text-center text-gray-800 mb-2">Buat Akun Baru</h2>
+                <p class="text-center text-gray-500 mb-8">Isi data di bawah untuk mendaftar</p>
+                <form id="register-form">
+                    <div class="mb-4">
+                        <label for="register-name" class="block text-gray-700 text-sm font-semibold mb-2">Nama Lengkap</label>
+                        <input type="text" id="register-name" class="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Nama Anda" required>
+                    </div>
+                    <div class="mb-4">
+                        <label for="register-email" class="block text-gray-700 text-sm font-semibold mb-2">Email</label>
+                        <input type="email" id="register-email" class="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="nama@email.com" required>
+                    </div>
+                    <div class="mb-6">
+                        <label for="register-password" class="block text-gray-700 text-sm font-semibold mb-2">Password</label>
+                        <input type="password" id="register-password" class="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Minimal 6 karakter" required>
+                    </div>
+                    <button type="submit" class="w-full bg-blue-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-300">Daftar</button>
+                </form>
+                <p class="text-center text-gray-500 mt-6">
+                    Sudah punya akun? <a href="#" id="show-login" class="text-blue-600 hover:underline font-semibold">Login di sini</a>
+                </p>
+            </div>
+        </div>
+
+        <!-- Halaman Dashboard (Setelah Login) -->
+        <div id="dashboard-page" class="page">
+            <div class="bg-white p-8 rounded-2xl shadow-lg w-full text-center">
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">Login Berhasil!</h2>
+                <p class="text-xl text-gray-600 mb-2">Selamat Datang,</p>
+                <p id="user-name-display" class="text-2xl font-semibold text-blue-600 mb-8"></p>
+                <button id="logout-button" class="w-full bg-red-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition duration-300">Logout</button>
+            </div>
+        </div>
+        
+        <!-- Notifikasi -->
+        <div id="notification" class="fixed top-5 right-5 bg-red-500 text-white py-2 px-4 rounded-lg shadow-md transition-transform transform translate-x-full">
+            <p id="notification-message"></p>
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script type="module">
+        // Import fungsi yang diperlukan dari Firebase SDK
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import { 
+            getAuth, 
+            createUserWithEmailAndPassword, 
+            signInWithEmailAndPassword, 
+            onAuthStateChanged, 
+            signOut 
+        } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+        import { 
+            getFirestore, 
+            doc, 
+            setDoc, 
+            getDoc 
+        } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+        // Konfigurasi Firebase Anda akan ditempatkan di sini secara otomatis.
+        // JANGAN UBAH VARIABEL INI
+        const firebaseConfig = JSON.parse(typeof __firebase_config !== 'undefined' ? __firebase_config : '{}');
+
+        // Inisialisasi Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        // Referensi elemen UI
+        const loginPage = document.getElementById('login-page');
+        const registerPage = document.getElementById('register-page');
+        const dashboardPage = document.getElementById('dashboard-page');
+        
+        const loginForm = document.getElementById('login-form');
+        const registerForm = document.getElementById('register-form');
+        
+        const showRegisterLink = document.getElementById('show-register');
+        const showLoginLink = document.getElementById('show-login');
+        
+        const logoutButton = document.getElementById('logout-button');
+        const userNameDisplay = document.getElementById('user-name-display');
+        
+        const notification = document.getElementById('notification');
+        const notificationMessage = document.getElementById('notification-message');
+
+        // Fungsi untuk menampilkan notifikasi
+        function showNotification(message, isError = true) {
+            notificationMessage.textContent = message;
+            notification.className = `fixed top-5 right-5 text-white py-2 px-4 rounded-lg shadow-md transition-transform transform translate-x-0 ${isError ? 'bg-red-500' : 'bg-green-500'}`;
+            
+            setTimeout(() => {
+                notification.className = notification.className.replace('translate-x-0', 'translate-x-full');
+            }, 3000);
+        }
+        
+        // Fungsi untuk pindah halaman
+        function switchPage(pageId) {
+            document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
+            document.getElementById(pageId).classList.add('active');
+        }
+
+        // Event listener untuk pindah dari login ke registrasi
+        showRegisterLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            switchPage('register-page');
+        });
+
+        // Event listener untuk pindah dari registrasi ke login
+        showLoginLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            switchPage('login-page');
+        });
+
+        // Event listener untuk form registrasi
+        registerForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const name = document.getElementById('register-name').value;
+            const email = document.getElementById('register-email').value;
+            const password = document.getElementById('register-password').value;
+
+            try {
+                const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+                const user = userCredential.user;
+                
+                // Simpan data tambahan (nama) ke Firestore
+                await setDoc(doc(db, "users", user.uid), {
+                    nama: name,
+                    email: email
+                });
+                
+                showNotification('Registrasi berhasil! Silakan login.', false);
+                registerForm.reset();
+                switchPage('login-page');
+
+            } catch (error) {
+                console.error("Error pendaftaran: ", error);
+                showNotification(getFriendlyErrorMessage(error.code));
+            }
+        });
+
+        // Event listener untuk form login
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+
+            try {
+                await signInWithEmailAndPassword(auth, email, password);
+                // Status login akan ditangani oleh onAuthStateChanged
+                loginForm.reset();
+            } catch (error) {
+                console.error("Error login: ", error);
+                showNotification(getFriendlyErrorMessage(error.code));
+            }
+        });
+        
+        // Event listener untuk tombol logout
+        logoutButton.addEventListener('click', async () => {
+            try {
+                await signOut(auth);
+                // Status logout akan ditangani oleh onAuthStateChanged
+            } catch (error) {
+                console.error("Error logout: ", error);
+                showNotification('Gagal untuk logout.');
+            }
+        });
+
+        // Memantau perubahan status otentikasi
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                // Pengguna sedang login
+                const userDocRef = doc(db, "users", user.uid);
+                const userDocSnap = await getDoc(userDocRef);
+                
+                if (userDocSnap.exists()) {
+                    userNameDisplay.textContent = userDocSnap.data().nama;
+                } else {
+                    userNameDisplay.textContent = user.email;
+                }
+                switchPage('dashboard-page');
+            } else {
+                // Pengguna logout
+                switchPage('login-page');
+            }
+        });
+
+        // Fungsi untuk pesan error yang lebih mudah dimengerti
+        function getFriendlyErrorMessage(errorCode) {
+            switch (errorCode) {
+                case 'auth/invalid-email':
+                    return 'Format email tidak valid.';
+                case 'auth/user-not-found':
+                case 'auth/wrong-password':
+                    return 'Email atau password salah.';
+                case 'auth/email-already-in-use':
+                    return 'Email ini sudah terdaftar.';
+                case 'auth/weak-password':
+                    return 'Password terlalu lemah. Gunakan minimal 6 karakter.';
+                case 'auth/network-request-failed':
+                    return 'Gagal terhubung ke server. Periksa koneksi internet Anda.';
+                default:
+                    return 'Terjadi kesalahan. Silakan coba lagi.';
+            }
+        }
+    </script>
+</body>
+</html>
